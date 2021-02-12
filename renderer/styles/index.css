@@ -1,0 +1,35 @@
+@tailwind base;
+
+/* Write your own custom base styles here */
+
+/* Start purging... */
+@tailwind components;
+/* Stop purging. */
+
+html,
+body {
+  @apply bg-gray-900 text-white;
+}
+
+.background {
+  @apply h-screen w-screen bg-gradient-to-t from-blue-900 via-red-500 to-yellow-200;
+}
+
+/* Write your own custom component styles here */
+.btn-blue {
+  @apply px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600;
+}
+
+.btn-white {
+  @apply px-4 py-2 font-bold text-gray-500 bg-white rounded hover:bg-gray-500 hover:text-white;
+}
+
+.cloud {
+  @apply absolute text-8xl;
+}
+
+/* Start purging... */
+@tailwind utilities;
+/* Stop purging. */
+
+/* Your own custom utilities */
