@@ -1,0 +1,41 @@
+@tailwind base;
+
+/* Write your own custom base styles here */
+
+/* Start purging... */
+@tailwind components;
+/* Stop purging. */
+
+.background {
+  @apply h-screen w-screen bg-gradient-to-t from-blue-900 via-red-500 to-yellow-200;
+}
+
+.btn {
+  @apply px-4 py-2 font-bold rounded
+}
+
+.btn-block {
+  @apply w-full block outline-none
+}
+
+.btn-gray {
+  @apply bg-gray-400 text-white hover:bg-gray-600
+}
+
+.btn-white {
+  @apply bg-white text-gray-500 hover:text-gray-600;
+}
+
+.btn-red {
+  @apply bg-red-500 text-white hover:bg-red-600
+}
+
+.cloud {
+  @apply absolute text-8xl;
+}
+
+/* Start purging... */
+@tailwind utilities;
+/* Stop purging. */
+
+/* Your own custom utilities */
