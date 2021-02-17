@@ -7,7 +7,9 @@ export type S3DriveData = {
 };
 
 export enum EventActions {
-  S3GetBucketListCommand = 'get-bucket-list',
+  S3ListDrives = 'list-drives',
+  S3AddDrive = 'add-drive',
+  S3RemoveDrive = 'remove-drive',
   S3GetBucketContent = 'get-bucket-content',
 }
 

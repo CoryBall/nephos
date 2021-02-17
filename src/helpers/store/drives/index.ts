@@ -1,4 +1,5 @@
 import Store from 'electron-store';
+// eslint-disable-next-line import/no-cycle
 import { S3DriveData } from '../../s3';
 
 const driveStore = new Store();
@@ -17,4 +18,13 @@ function addSavedDrive(drive: S3DriveData): void {
   console.log('saved drives: ', savedDrives);
 }
 
-export { addSavedDrive, getSavedDrives };
+function removeSavedDrive(drive: S3DriveData): S3DriveData[] {
+  const savedDrives = getSavedDrives();
+  const remainingDrives = savedDrives.filter(
+    (d: S3DriveData) => d.accessKey !== drive.accessKey
+  );
+  driveStore.set('savedDrives', remainingDrives);
+  return remainingDrives;
+}
+
+export { addSavedDrive, getSavedDrives, removeSavedDrive };

@@ -1,4 +1,4 @@
 import NewDrivePage from './new';
+import ViewDrivesPage from './drives';
 
-// eslint-disable-next-line import/prefer-default-export
-export { NewDrivePage };
+export { NewDrivePage, ViewDrivesPage };

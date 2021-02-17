@@ -26,6 +26,7 @@ import installExtension, {
 import MenuBuilder from './menu';
 import { getBucketContents, EventActions } from './helpers/s3';
 import getBucketListFormResult from './helpers/s3/getBucketList';
+import { getSavedDrives, removeSavedDrive } from './helpers/store';
 
 export default class AppUpdater {
   constructor() {
@@ -105,13 +106,32 @@ const createWindow = async () => {
  */
 
 /**
- * S3GetBucketContent
+ * S3GetDrives
+ * @return list of drives currently saved
+ */
+ipcMain.handle(EventActions.S3ListDrives, async () => {
+  return getSavedDrives();
+});
+
+/**
+ * S3AddDrive
  * @param driveData: S3DriveData
  */
 ipcMain.handle(
-  EventActions.S3GetBucketListCommand,
+  EventActions.S3AddDrive,
   async (_: IpcMainInvokeEvent, ...args) => {
     return getBucketListFormResult(args[0]);
+  }
+);
+
+/**
+ * S3RemoveDrive
+ * @param driveToRemove: S3DriveData
+ */
+ipcMain.handle(
+  EventActions.S3RemoveDrive,
+  async (_: IpcMainInvokeEvent, ...args) => {
+    return removeSavedDrive(args[0]);
   }
 );
 

@@ -5,7 +5,7 @@ import {
   Bucket,
 } from '@aws-sdk/client-s3';
 import { S3DriveData, S3DriveFormFieldErrors, S3ReturnType } from './types';
-import { addSavedDrive } from '../store';
+import { addSavedDrive, getSavedDrives } from '../store';
 
 async function getBucketList(
   newDrive: S3DriveData
@@ -45,6 +45,16 @@ async function getBucketListFormResult(
   newDrive: S3DriveData
 ): Promise<S3ReturnType<Bucket[]>> {
   try {
+    const savedDrives = await getSavedDrives();
+    if (
+      savedDrives.some(
+        (drive: S3DriveData) => drive.accessKey === newDrive.accessKey
+      )
+    ) {
+      return {
+        error: [['endpoint', 'This drive has already been added']],
+      } as S3ReturnType<Bucket[]>;
+    }
     const buckets = await getBucketList(newDrive);
     return {
       data: buckets,

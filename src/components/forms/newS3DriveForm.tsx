@@ -39,7 +39,7 @@ const NewS3DriveForm: React.FC = () => {
 
   const submitForm = handleSubmit(async (formData: S3DriveData) => {
     const driveResult: S3ReturnType<Bucket[]> = await ipcRenderer.invoke(
-      EventActions.S3GetBucketListCommand,
+      EventActions.S3AddDrive,
       {
         name: formData.name,
         accessKey: formData.accessKey,
