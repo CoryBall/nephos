@@ -10,6 +10,7 @@ export enum EventActions {
   S3ListDrives = 'list-drives',
   S3AddDrive = 'add-drive',
   S3RemoveDrive = 'remove-drive',
+  S3GetBucketList = 'get-bucket-list',
   S3GetBucketContent = 'get-bucket-content',
 }
 

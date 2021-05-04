@@ -7,7 +7,7 @@ import {
 import { S3DriveData, S3DriveFormFieldErrors, S3ReturnType } from './types';
 import { addSavedDrive, getSavedDrives } from '../store';
 
-async function getBucketList(
+export async function getBucketList(
   newDrive: S3DriveData
 ): Promise<Bucket[] | undefined> {
   const endpointRegion = (): string => {

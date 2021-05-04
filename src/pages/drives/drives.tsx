@@ -2,11 +2,13 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import { Bucket } from '@aws-sdk/client-s3';
 import { PageWrapper } from '../../components';
 import { EventActions, S3DriveData } from '../../helpers/s3';
 
 const ViewDrivesPage: React.FC = () => {
   const [drives, setDrives] = React.useState<S3DriveData[]>([]);
+  const [buckets, setBuckets] = React.useState<Bucket[]>([]);
 
   // On load, get all saved drives to list
   React.useEffect(() => {
@@ -41,6 +43,15 @@ const ViewDrivesPage: React.FC = () => {
     await removeDriveToast.fire();
   }
 
+  async function getBuckets(drive: S3DriveData) {
+    const bucketList = await ipcRenderer.invoke(
+      EventActions.S3GetBucketList,
+      drive
+    );
+    console.log('buckets: ', bucketList as Bucket[]);
+    setBuckets(bucketList as Bucket[]);
+  }
+
   return (
     <PageWrapper>
       <div className="h-full w-full">
@@ -61,20 +72,40 @@ const ViewDrivesPage: React.FC = () => {
               </Link>
             </div>
           ) : (
-            <div className="w-1/3 px-2 py-3 rounded h-full bg-gray-200 border-r-4 text-2xl text-gray-500 overflow-y-scroll">
-              {drives.map((drive: S3DriveData) => (
-                <div key={drive.name} className="flex justify-between">
-                  <span className="my-auto ml-3">{drive.name}</span>
-                  <button
-                    type="button"
-                    className="rounded font-bold px-2 btn-red"
-                    onClick={async () => removeDrive(drive)}
-                  >
-                    X
-                  </button>
+            <>
+              <div className="w-1/3 px-2 py-3 rounded h-full bg-gray-200 border-r-4 text-2xl text-gray-500 overflow-y-scroll">
+                {drives.map((drive: S3DriveData) => (
+                  <div key={drive.name} className="flex justify-between">
+                    <button
+                      type="button"
+                      className="my-auto ml-3"
+                      onClick={() => getBuckets(drive)}
+                    >
+                      {drive.name}
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded font-bold px-2 btn-red"
+                      onClick={() => removeDrive(drive)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {buckets.length !== 0 && (
+                <div className="w-1/3 px-2 py-3 rounded h-full bg-gray-200 border-r-4 text-xl text-gray-500 overflow-y-scroll">
+                  {buckets?.map((bucket: Bucket) => (
+                    <div
+                      key={bucket.CreationDate?.toISOString()}
+                      className="flex justify-between"
+                    >
+                      <span className="my-auto ml-3">{bucket.Name}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </div>

@@ -24,7 +24,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer';
 import MenuBuilder from './menu';
-import { getBucketContents, EventActions } from './helpers/s3';
+import { getBucketContents, EventActions, getBucketList } from './helpers/s3';
 import getBucketListFormResult from './helpers/s3/getBucketList';
 import { getSavedDrives, removeSavedDrive } from './helpers/store';
 
@@ -132,6 +132,18 @@ ipcMain.handle(
   EventActions.S3RemoveDrive,
   async (_: IpcMainInvokeEvent, ...args) => {
     return removeSavedDrive(args[0]);
+  }
+);
+
+/**
+ * S3GetBucketList
+ * @param drive: S3DriveData
+ * @return buckets: Bucket[]
+ */
+ipcMain.handle(
+  EventActions.S3GetBucketList,
+  async (_: IpcMainInvokeEvent, ...args) => {
+    return getBucketList(args[0]);
   }
 );
 
